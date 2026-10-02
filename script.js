@@ -271,7 +271,6 @@ function iniciarJogo(dif) {
     gameData.meta300alcancada = false;
     gameData.meta500alcancada = false;
     
-    // Nível Médio agora está bem mais rápido e desafiador!
     if (dif === 'facil') {
         gameData.speed = 6;
         tempoSpawnAtual = 1200;
@@ -300,9 +299,35 @@ function iniciarJogo(dif) {
     jogoRodando = true;
     window.addEventListener('keydown', controlarTeclado);
 
+    // SUPORTE A TOQUE NO CELULAR (MOBILE TOUCH)
+    let trackContainer = document.getElementById('track-container');
+    if (trackContainer) {
+        trackContainer.ontouchstart = function(e) {
+            if (!jogoRodando) return;
+            e.preventDefault(); // Previne comportamentos padrões de rolagem
+            
+            let touch = e.touches[0];
+            let rect = trackContainer.getBoundingClientRect();
+            let clickX = touch.clientX - rect.left; // Posição X do toque dentro da pista
+
+            // Se tocar na metade esquerda da pista, vai pra esquerda; direita, vai pra direita
+            let larguraPista = rect.width;
+            if (clickX < larguraPista / 2) {
+                if (playerLane > 0) playerLane--;
+            } else {
+                if (playerLane < 2) playerLane++;
+            }
+
+            let pCar = document.getElementById('player-car');
+            if (pCar) {
+                pCar.style.left = lanesX[playerLane] + 'px';
+            }
+        };
+    }
+
     gameLoopInterval = setInterval(atualizarLogicaJogo, 20);
 
-    // Quilômetros crescendo e checando as metas de 100km, 300km e 500km
+    // Quilômetros crescendo e checando as metas
     pointsInterval = setInterval(() => {
         if (!jogoRodando) return;
         gameData.distance += 0.5;
@@ -354,7 +379,7 @@ function controlarTeclado(e) {
 function gerarCarroInimigo() {
     if (!jogoRodando) return;
     let laneAleatoria = Math.floor(Math.random() * 3);
-    let emojisInimigos = ["🚓", "🚕", "🚐", "🚚", "🚙", "🏎️️"];
+    let emojisInimigos = ["🚓", "🚕", "🚐", "🚚", "🚙", "🏎"];
     let emojiEscolhido = emojisInimigos[Math.floor(Math.random() * emojisInimigos.length)];
 
     let trackContainer = document.getElementById('track-container');

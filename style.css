@@ -5,6 +5,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Rajdhani', sans-serif;
+    touch-action: manipulation; /* Evita zoom acidental ao tocar rápido na tela do celular */
 }
 
 body {
