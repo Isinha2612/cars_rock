@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cars & Rock</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- TELA DE LOGIN RÁPIDO -->
+    <div id="auth-screen" class="screen active">
+        <div class="auth-container">
+            <h2>Cars & Rock</h2>
+            <p style="color: #aaa; margin-bottom: 20px; font-size: 14px;">Digite seu apelido para acelerar!</p>
+            
+            <div class="form-section active">
+                <input type="text" id="login-user" placeholder="Nome do Piloto">
+                <button class="rock-btn" onclick="fazerLogin()">Entrar na Pista 🎸</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DO MENU PRINCIPAL -->
+    <div id="menu-screen" class="screen">
+        <div class="menu-container">
+            <h1>Cars & Rock 🎸🏎️</h1>
+            
+            <div class="profile-box">
+                <div id="profile-avatar-container" class="avatar-box" ondragover="permitirDrop(event)" ondrop="soltarFoto(event)" title="Arraste sua foto aqui">
+                    <img id="profile-avatar" src="" alt="Avatar" style="display:none;">
+                    <div id="avatar-default" style="font-size: 32px;">📷</div>
+                </div>
+                <input type="file" id="upload-avatar" accept="image/*" style="display:none;" onchange="carregarFotoArquivo(this)">
+                
+                <div class="profile-info">
+                    <h3 id="player-name-display">Piloto</h3>
+                    <p>Pontos: <span id="player-points">0</span></p>
+                    <p>Dinheiro: <span id="player-money">R$ 0</span></p>
+                    <p>Carro Atual: <strong id="current-car-name">Fusca Metal</strong></p>
+                    <p style="color: #ff4500; font-weight: bold; margin-top: 4px;">🏆 Recorde: <span id="player-record">0</span> km</p>
+                    <small id="avatar-status" style="color: #ffcc00; display: block; margin-top: 4px;">Fase 0/3 para desbloquear foto</small>
+                </div>
+            </div>
+
+            <div class="menu-buttons">
+                <button class="rock-btn" onclick="abrirSelecaoDificuldade()">🎮 Jogar Partida</button>
+                <button class="rock-btn" onclick="abrirLoja()">🛒 Garagem / Loja</button>
+                <button class="rock-btn logout-btn" onclick="sairDaConta()">🚪 Trocar Piloto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DE SELEÇÃO DE DIFICULDADE -->
+    <div id="difficulty-screen" class="screen">
+        <div class="menu-container">
+            <h2>Escolha o Ritmo da Pista</h2>
+            <div class="menu-buttons">
+                <button class="rock-btn" onclick="iniciarJogo('facil')">🎸 Fácil (Veloz & Divertido)</button>
+                <button class="rock-btn" onclick="iniciarJogo('medio')">🔥 Médio (Alta Velocidade)</button>
+                <button class="rock-btn" onclick="iniciarJogo('dificil')" style="background: linear-gradient(135deg, #8b0000, #ff0000);">⚡ Difícil (Insano & Turbo)</button>
+                <button class="rock-btn back-btn" onclick="voltarMenu()">⬅️ Voltar ao Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DO JOGO -->
+    <div id="game-screen" class="screen">
+        <div class="game-hud">
+            <div>Vidas: <span id="lives-display">❤️ ❤️ ❤️</span></div>
+            <div>Distância: <span id="distance-display">0</span>/500 km</div>
+            <div>Pontos: <span id="game-points">0</span></div>
+        </div>
+
+        <div id="track-container" class="track-container">
+            <div id="player-car" class="car-on-track">🚗</div>
+        </div>
+
+        <div style="font-size: 12px; color: #aaa; margin-top: 5px; text-align: center;">
+            Use as setas ⬅️️ ➡️ ou teclas A e D para desviar!
+        </div>
+
+        <div class="game-controls" style="margin-top: 10px;">
+            <button class="rock-btn" onclick="pararJogo()">🏁 Terminar Partida</button>
+        </div>
+    </div>
+
+    <!-- TELA DA LOJA / GARAGEM -->
+    <div id="store-screen" class="screen">
+        <div class="store-container">
+            <h2>Garagem & Loja Rock</h2>
+            <p>Seus Pontos: <span id="store-points" style="color: #ffcc00; font-weight: bold;">0</span></p>
+            
+            <div id="cars-grid" class="cars-grid">
+                <!-- Carros gerados via JavaScript -->
+            </div>
+
+            <button class="rock-btn back-btn" onclick="voltarMenu()" style="margin-top: 15px;">⬅️ Voltar ao Menu</button>
+        </div>
+    </div>
+
+    <!-- MODAL / CAIXA DE CONFIRMAÇÃO DE COMPRA -->
+    <div id="confirm-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h3>Confirmação de Compra</h3>
+            <p id="confirm-text" style="margin: 15px 0; color: #ccc; font-size: 15px;"></p>
+            <div style="display: flex; gap: 10px;">
+                <button class="rock-btn" style="background: #333;" onclick="fecharModalConfirmacao()">Não</button>
+                <button class="rock-btn" id="yes-confirm-btn">Sim</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
